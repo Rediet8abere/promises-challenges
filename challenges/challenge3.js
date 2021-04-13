@@ -28,6 +28,29 @@
  *******************************************************************************
  */
 
+ /*
+ *******************************************************************************
+ * Response:
+ * 
+ * 1. Syntax difference: Async/Await function uses async/await keyword
+ *    whereas non-async function with a promise uses the promise function that takes in resolve and reject
+ *    How is this function different than a regular (non-async)
+ *    Return type: non-async functions returns a promise and  Async/Await returns resolved promise 
+ * 
+ * 
+ * 2. Promise { <pending> } 
+ * 
+ * 3. HELLO THERE, DUCKY, promise gets resolved
+ * 
+ * 
+ * 4. Done
+ * 
+ *    'H E L L O   T H E R E ,   D U C K Y'
+ * 
+ * 
+ *******************************************************************************
+ */
+
 
  /**
   * Asynchronously returns a greeting for a specified name.
@@ -61,21 +84,42 @@ function uppercaser(str) {
     });
 }
 
+
+function spacer(str) {
+  return new Promise(function(resolve, reject){
+    setTimeout(function() {
+      if (typeof str === 'string') {
+        let spacedWord = ""
+        for(let i = 0; i < str.length; i++) {
+          if (i+1 != str.length) {
+            spacedWord += str[i] + ' '
+          } else {
+            spacedWord += str[i]
+          }
+        }
+        resolve(spacedWord)
+      } else {
+        reject('Word must be a string')
+      }})
+  })
+}
+
 async function greetAndUppercase(name) {
     greeting = await greet(name)
     uppercasedGreeting = await uppercaser(greeting)
-    return uppercasedGreeting
+    strspacer = await spacer(uppercasedGreeting)
+    return strspacer
 }
 
 /* Uncomment me! #1 */
-// result = greetAndUppercase('Ducky')
-// console.log(result)
+result = greetAndUppercase('Ducky')
+console.log(result)
 
 /* Uncomment me! #2 */
-// greetAndUppercase('Ducky')
-//     .then(function(result) {
-//         console.log(result)
-//     })
-//     .catch(function(err) {
-//         console.log(err)
-//     })
+greetAndUppercase('Ducky')
+    .then(function(result) {
+        console.log(result)
+    })
+    .catch(function(err) {
+        console.log(err)
+    })

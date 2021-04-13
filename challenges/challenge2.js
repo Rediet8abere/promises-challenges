@@ -31,6 +31,24 @@
  *******************************************************************************
  */
 
+
+/*
+ *******************************************************************************
+ * RESPONSE: 
+ * 1. Hello there, Ducky
+ *    MAKE SCHOOL IS AWESOME!!!
+ * 
+ * 2. 'Received an error!' will be logged with a reject message -> 'Name must be a string!'
+ * 
+ * 3. The first promise will be resolved giving the result 'Hello there, Ducky' 
+ *    but the second promise results in Error message 'Received an error!' 
+ *    with a reject message 'Argument to uppercaser must be string'
+ * 
+ * 4. Done.
+ * 
+ *******************************************************************************
+ */ 
+
  /**
   * Asynchronously returns a greeting for a specified name.
   * @param name The name of the person to greet.
@@ -45,6 +63,26 @@ function greet(name) {
         }
       }, 1000);
     });
+}
+
+function spacer(str) {
+  return new Promise(function(resolve, reject){
+    setTimeout(function() {
+      if (typeof str === 'string') {
+        let spacedWord = ""
+        for(let i = 0; i < str.length; i++) {
+          if (i+1 != str.length) {
+            spacedWord += str[i] + ' '
+          } else {
+            spacedWord += str[i]
+          }
+        }
+        resolve(spacedWord)
+      } else {
+        reject('Word must be a string')
+      }
+    })
+  })
 }
 
 /**
@@ -65,7 +103,7 @@ function uppercaser(str) {
 
 name = 'Ducky'
 my_str = 'Make School is Awesome!!!'
-
+str = 'foo'
 greet(name)
     .then((greetResult) => {
         console.log(greetResult)
@@ -73,6 +111,10 @@ greet(name)
     })
     .then((uppercaserResult) => {
         console.log(uppercaserResult)
+        return spacer(str)
+    })
+    .then((spacerResult) => {
+      console.log(spacerResult)
     }).catch((err) => {
         console.log('Received an error!')
         console.log(err);
